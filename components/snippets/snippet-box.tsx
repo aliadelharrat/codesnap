@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { MoreHorizontalIcon } from "lucide-react";
 import { formatTime } from "@/lib/format-time";
+import DeleteSnippetComponent from "./delete-snippet";
 
 type snippetBoxProps = {
   snippet: InferSelectModel<typeof snippetsTable>;
@@ -23,7 +24,11 @@ const SnippetBox = ({ snippet }: snippetBoxProps) => {
       className="group relative overflow-hidden rounded-lg border bg-background p-4 transition-all hover:shadow-md"
     >
       <div className="flex items-center justify-between mb-2">
-        <div className="font-medium">{snippet.title}</div>
+        <div className="font-medium">
+          <Link href={`/dashboard/snippets/${snippet.id}`}>
+            {snippet.title}
+          </Link>
+        </div>
         <div className="flex items-center gap-2">
           {/* {snippet.visibility === "public" ? (
             <div className="flex items-center text-sm text-muted-foreground">
@@ -46,9 +51,7 @@ const SnippetBox = ({ snippet }: snippetBoxProps) => {
             <DropdownMenuContent align="end">
               <DropdownMenuItem>Edit</DropdownMenuItem>
               <DropdownMenuItem>Duplicate</DropdownMenuItem>
-              <DropdownMenuItem className="text-destructive">
-                Delete
-              </DropdownMenuItem>
+              <DeleteSnippetComponent id={snippet.id} />
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
@@ -68,12 +71,12 @@ const SnippetBox = ({ snippet }: snippetBoxProps) => {
         </span>
         <span>Created {formatTime(snippet.createdAt)}</span>
       </div>
-      <Link
+      {/* <Link
         href={`/dashboard/snippets/${snippet.id}`}
         className="absolute inset-0"
       >
         <span className="sr-only">View snippet</span>
-      </Link>
+      </Link> */}
     </div>
   );
 };

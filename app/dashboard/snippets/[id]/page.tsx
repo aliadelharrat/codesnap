@@ -20,6 +20,8 @@ import {
 import { getSnippet } from "@/server/actions/get-snippet";
 import { notFound } from "next/navigation";
 import { formatTime } from "@/lib/format-time";
+import { deleteSnippet } from "@/server/actions/delete-snippet";
+import DeleteSnippetComponent from "@/components/snippets/delete-snippet";
 
 export default async function SnippetDetailPage({
   params,
@@ -102,10 +104,7 @@ export default async function SnippetDetailPage({
                 <PencilIcon className="h-4 w-4" />
                 Edit
               </DropdownMenuItem>
-              <DropdownMenuItem className="gap-2 text-destructive">
-                <TrashIcon className="h-4 w-4" />
-                Delete
-              </DropdownMenuItem>
+              <DeleteSnippetComponent id={snippet.id} />
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
