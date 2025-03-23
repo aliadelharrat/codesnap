@@ -1,0 +1,1 @@
+ALTER TABLE "snippets" ALTER COLUMN "id" SET DATA TYPE serial;
