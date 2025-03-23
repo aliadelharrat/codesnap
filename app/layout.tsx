@@ -1,11 +1,13 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { Inter } from "next/font/google";
+import Nav from "@/components/navigation/nav";
+import Footer from "@/components/footer";
+import { Toaster } from "react-hot-toast";
 
 export const metadata: Metadata = {
-  title: "v0 App",
-  description: "Created with v0",
-  generator: "v0.dev",
+  title: "Codesnap",
+  description: "A place to share your code snippets with ease!",
 };
 
 const font = Inter({ subsets: ["latin"] });
@@ -18,7 +20,14 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={font.className}>
-        <main className="container mx-auto">{children}</main>
+        <main className="container mx-auto">
+          <div className="flex min-h-screen flex-col">
+            <Nav />
+            <main className="flex-1">{children}</main>
+            <Footer />
+            <Toaster />
+          </div>
+        </main>
       </body>
     </html>
   );
