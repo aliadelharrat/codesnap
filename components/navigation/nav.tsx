@@ -23,6 +23,11 @@ const Nav = async () => {
 
         {session ? (
           <div className="flex items-center gap-4">
+            <Link href="/dashboard">
+              <Button variant={"link"} size="sm" className="gap-1">
+                Dashboard
+              </Button>
+            </Link>
             <Link href="/dashboard/new">
               <Button size="sm" className="gap-1">
                 <PlusIcon className="h-4 w-4" />
