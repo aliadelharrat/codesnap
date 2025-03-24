@@ -7,6 +7,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { auth, signOut } from "@/server/auth";
 
 const Nav = async () => {
@@ -31,8 +32,16 @@ const Nav = async () => {
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" size="icon" className="rounded-full">
-                  <UserIcon className="h-5 w-5" />
-                  <span className="sr-only">User menu</span>
+                  <Avatar>
+                    {session.user!?.image ? (
+                      <AvatarImage src={session.user?.image} />
+                    ) : (
+                      <UserIcon className="h-5 w-5" />
+                    )}
+                    <AvatarFallback>
+                      {session?.user?.name?.toUpperCase().slice(0, 2)}
+                    </AvatarFallback>
+                  </Avatar>
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
