@@ -5,6 +5,7 @@ import { actionClient } from "@/server/actions/safe-action";
 import { db } from "@/server";
 import { snippetsTable } from "../schema";
 import { eq } from "drizzle-orm";
+import { revalidatePath } from "next/cache";
 
 export const updateSnippet = actionClient
   .schema(snippetSchema)
@@ -18,6 +19,7 @@ export const updateSnippet = actionClient
           description,
         })
         .where(eq(snippetsTable.id, id!));
+      revalidatePath("/dashboard", "layout");
       return { success: "Snippet updated successfully." };
     } catch (error) {
       console.log(error);
