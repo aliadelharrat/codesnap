@@ -1,6 +1,7 @@
 import { z } from "zod";
 
 export const snippetSchema = z.object({
+  id: z.optional(z.string()),
   title: z
     .string()
     .min(2, {

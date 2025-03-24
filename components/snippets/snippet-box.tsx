@@ -12,6 +12,7 @@ import {
 import { MoreHorizontalIcon } from "lucide-react";
 import { formatTime } from "@/lib/format-time";
 import DeleteSnippetComponent from "./delete-snippet";
+import EditSnippetButton from "./edit-snippet-button";
 
 type snippetBoxProps = {
   snippet: InferSelectModel<typeof snippetsTable>;
@@ -48,9 +49,9 @@ const SnippetBox = ({ snippet }: snippetBoxProps) => {
                 <span className="sr-only">More</span>
               </Button>
             </DropdownMenuTrigger>
+
             <DropdownMenuContent align="end">
-              <DropdownMenuItem>Edit</DropdownMenuItem>
-              <DropdownMenuItem>Duplicate</DropdownMenuItem>
+              <EditSnippetButton id={snippet.id} />
               <DeleteSnippetComponent id={snippet.id} />
             </DropdownMenuContent>
           </DropdownMenu>
