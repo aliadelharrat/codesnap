@@ -18,11 +18,12 @@ import {
   TrashIcon,
 } from "lucide-react";
 import { getSnippet } from "@/server/actions/get-snippet";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { formatTime } from "@/lib/format-time";
 import { deleteSnippet } from "@/server/actions/delete-snippet";
 import DeleteSnippetComponent from "@/components/snippets/delete-snippet";
 import EditSnippetButton from "@/components/snippets/edit-snippet-button";
+import { auth } from "@/server/auth";
 
 export default async function SnippetDetailPage({
   params,
@@ -30,18 +31,18 @@ export default async function SnippetDetailPage({
   params: { id: string };
 }) {
   const id = (await params).id;
+  const user = (await auth())?.user;
 
   // const copyToClipboard = () => {
   //   navigator.clipboard.writeText(snippet.code);
   //   // You would add a toast notification here in a real app
   // };
 
-  let snippet;
+  const snippet = await getSnippet(id);
 
-  try {
-    snippet = await getSnippet(id);
-  } catch {
-    return notFound();
+  // check if the user own the snippet
+  if (user?.id !== snippet.userId) {
+    return redirect("/dashboard");
   }
 
   return (

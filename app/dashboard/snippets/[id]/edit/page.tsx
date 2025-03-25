@@ -2,7 +2,8 @@ import { getSnippet } from "@/server/actions/get-snippet";
 import EditSnippetForm from "./edit-snippet-form";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
+import { auth } from "@/server/auth";
 
 type EditSnippetPageProps = {
   params: { id: string };
@@ -10,10 +11,15 @@ type EditSnippetPageProps = {
 
 const EditSnippetPage = async ({ params }: EditSnippetPageProps) => {
   const id = (await params).id;
-
+  const user = (await auth())?.user;
   const snippet = await getSnippet(id);
 
   if (!snippet) return notFound();
+
+  // Check if snippet belongs to current user
+  if (snippet.userId !== user?.id) {
+    return redirect("/dashboard");
+  }
 
   return (
     <div className="flex min-h-screen flex-col">

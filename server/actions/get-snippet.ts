@@ -1,8 +1,9 @@
 "use server";
 
 import { db } from "@/server";
-import { desc, eq } from "drizzle-orm";
+import { eq } from "drizzle-orm";
 import { snippetsTable } from "../schema";
+import { notFound } from "next/navigation";
 
 export async function getSnippet(id: string) {
   const snippet = await db
@@ -10,6 +11,6 @@ export async function getSnippet(id: string) {
     .from(snippetsTable)
     .where(eq(snippetsTable.id, id));
 
-  if (!snippet.length) throw new Error("Snippet not found");
+  if (!snippet.length) return notFound();
   return snippet[0];
 }
