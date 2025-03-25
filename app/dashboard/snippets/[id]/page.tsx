@@ -26,6 +26,8 @@ import { deleteSnippet } from "@/server/actions/delete-snippet";
 import DeleteSnippetComponent from "@/components/snippets/delete-snippet";
 import EditSnippetButton from "@/components/snippets/edit-snippet-button";
 import { auth } from "@/server/auth";
+import CopySnippet from "@/components/snippets/copy-snippet";
+import ShareSnippet from "@/components/snippets/share-snippet";
 
 export default async function SnippetDetailPage({
   params,
@@ -34,11 +36,6 @@ export default async function SnippetDetailPage({
 }) {
   const id = (await params).id;
   const user = (await auth())?.user;
-
-  // const copyToClipboard = () => {
-  //   navigator.clipboard.writeText(snippet.code);
-  //   // You would add a toast notification here in a real app
-  // };
 
   const snippet = await getSnippet(id);
 
@@ -83,19 +80,8 @@ export default async function SnippetDetailPage({
           </div>
         </div>
         <div className="flex items-center gap-2">
-          {/* <Button
-            variant="outline"
-            size="sm"
-            // onClick={copyToClipboard}
-            className="gap-1"
-          >
-            <ClipboardCopyIcon className="h-4 w-4" />
-            Copy
-          </Button>
-          <Button variant="outline" size="sm" className="gap-1">
-            <ShareIcon className="h-4 w-4" />
-            Share
-          </Button> */}
+          <CopySnippet code={snippet.code} />
+          <ShareSnippet id={snippet.id} visibility={snippet.visibility} />
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" size="icon" className="h-8 w-8">
