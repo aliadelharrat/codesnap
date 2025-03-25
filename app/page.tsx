@@ -2,8 +2,10 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { CodeIcon, EyeIcon } from "lucide-react";
 import { getSnippets } from "@/server/actions/get-snippets";
+import { auth } from "@/server/auth";
 
 export default async function HomePage() {
+  const user = (await auth())?.user;
   return (
     <>
       <section className="py-12 md:py-16 lg:py-20">
@@ -19,14 +21,33 @@ export default async function HomePage() {
               </p>
             </div>
             <div className="space-x-4">
-              <Link href="/signup">
-                <Button size="lg">Get Started</Button>
-              </Link>
-              <Link href="/explore">
-                <Button variant="outline" size="lg">
-                  Explore Snippets
-                </Button>
-              </Link>
+              {!user && (
+                <>
+                  <Link href="/auth">
+                    <Button size="lg">Get Started</Button>
+                  </Link>
+
+                  <Link href="/">
+                    <Button variant="outline" size="lg">
+                      Explore Snippets
+                    </Button>
+                  </Link>
+                </>
+              )}
+
+              {user && (
+                <>
+                  <Link href="/dashboard">
+                    <Button size="lg">Visit your dashboard</Button>
+                  </Link>
+
+                  <Link href="/">
+                    <Button variant="outline" size="lg">
+                      Explore Snippets
+                    </Button>
+                  </Link>
+                </>
+              )}
             </div>
           </div>
         </div>

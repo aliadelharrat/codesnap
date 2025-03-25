@@ -60,7 +60,7 @@ const Nav = async () => {
                   action={async () => {
                     "use server";
                     await signOut({
-                      redirectTo: "/dashboard",
+                      redirectTo: "/",
                     });
                   }}
                 >
