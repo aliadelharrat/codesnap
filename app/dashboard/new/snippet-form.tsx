@@ -23,7 +23,11 @@ import toast from "react-hot-toast";
 import { redirect } from "next/navigation";
 import { Loader2 } from "lucide-react";
 
-const SnippetForm = () => {
+type SnippetFormProps = {
+  id: string;
+};
+
+const SnippetForm = ({ id }: SnippetFormProps) => {
   // 1. Define your form.
   const form = useForm<z.infer<typeof snippetSchema>>({
     resolver: zodResolver(snippetSchema),
@@ -36,12 +40,16 @@ const SnippetForm = () => {
 
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof snippetSchema>) {
-    const res = await createSnippet(values);
+    const res = await createSnippet({ ...values, id });
     if (res?.data?.success) {
       toast(res.data.success, {
         icon: "👏",
       });
       redirect("/dashboard");
+    } else {
+      toast(res?.data?.failure!, {
+        icon: "👎",
+      });
     }
   }
 

@@ -8,9 +8,13 @@ import { revalidatePath } from "next/cache";
 
 export const createSnippet = actionClient
   .schema(snippetSchema)
-  .action(async ({ parsedInput: { title, code, description } }) => {
+  .action(async ({ parsedInput: { id, title, code, description } }) => {
     try {
+      if (!id) {
+        return { failure: "Missing ID, Please login again!" };
+      }
       await db.insert(snippetsTable).values({
+        userId: id,
         title,
         code,
         description,

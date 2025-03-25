@@ -15,6 +15,9 @@ export const snippetsTable = pgTable("snippets", {
   code: text("code").notNull(),
   description: text("description").notNull(),
   createdAt: timestamp("created_at").defaultNow(),
+  userId: text("userId")
+    .notNull()
+    .references(() => users.id, { onDelete: "cascade" }),
 });
 
 export const users = pgTable("user", {

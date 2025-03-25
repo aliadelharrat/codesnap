@@ -5,9 +5,18 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { CodeIcon, PlusIcon, SearchIcon } from "lucide-react";
 import SnippetBox from "@/components/snippets/snippet-box";
 import { getSnippets } from "@/server/actions/get-snippets";
+import { auth } from "@/server/auth";
+import { getSnippetsByUserId } from "@/server/actions/get-snippets-by-user-id";
+import { redirect } from "next/navigation";
 
 export default async function DashboardPage() {
-  const snippets = await getSnippets();
+  const user = (await auth())?.user;
+
+  if (!user?.id) return redirect("/auth");
+
+  const snippets = await getSnippetsByUserId(user?.id);
+
+  console.log(snippets);
 
   // const [searchQuery, setSearchQuery] = useState("");
 

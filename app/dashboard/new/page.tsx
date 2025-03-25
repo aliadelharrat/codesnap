@@ -1,13 +1,18 @@
-"use client";
-
 // import { useState } from "react";
 import Link from "next/link";
 
 import { ArrowLeft } from "lucide-react";
 import SnippetForm from "./snippet-form";
+import { auth } from "@/server/auth";
+import { redirect } from "next/navigation";
 
-export default function NewSnippetPage() {
+export default async function NewSnippetPage() {
   // const [visibility, setVisibility] = useState("private");
+  const session = await auth();
+
+  if (!session?.user?.id) {
+    return redirect("/auth");
+  }
 
   return (
     <div className="flex min-h-screen flex-col">
@@ -26,7 +31,7 @@ export default function NewSnippetPage() {
           <h1 className="mb-6 text-2xl font-bold">Create New Snippet</h1>
 
           <div className="space-y-6">
-            <SnippetForm />
+            <SnippetForm id={session?.user.id} />
             {/* <div className="space-y-2">
               <Label htmlFor="title">Title</Label>
               <Input id="title" placeholder="Enter a descriptive title" />
