@@ -21,13 +21,18 @@ import Link from "next/link";
 import { createSnippet } from "@/server/actions/create-snippet";
 import toast from "react-hot-toast";
 import { redirect } from "next/navigation";
-import { Loader2 } from "lucide-react";
+import { EyeIcon, Loader2, LockIcon } from "lucide-react";
+import { Label } from "@/components/ui/label";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { useState } from "react";
 
 type SnippetFormProps = {
   id: string;
 };
 
 const SnippetForm = ({ id }: SnippetFormProps) => {
+  // const [visibility, setVisibility] = useState<"private" | "public">("private");
+
   // 1. Define your form.
   const form = useForm<z.infer<typeof snippetSchema>>({
     resolver: zodResolver(snippetSchema),
@@ -35,6 +40,7 @@ const SnippetForm = ({ id }: SnippetFormProps) => {
       title: "",
       code: "",
       description: "",
+      visibility: "public",
     },
   });
 
@@ -106,6 +112,52 @@ const SnippetForm = ({ id }: SnippetFormProps) => {
                   className="min-h-[100px]"
                   {...field}
                 />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="visibility"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Visibility</FormLabel>
+              <FormControl>
+                <div className="space-y-2">
+                  <RadioGroup
+                    onValueChange={field.onChange}
+                    className="flex gap-4"
+                    {...field}
+                  >
+                    <div className="flex items-center space-x-2">
+                      <RadioGroupItem value="private" id="private" />
+                      <Label
+                        htmlFor="private"
+                        className="flex items-center gap-1 cursor-pointer"
+                      >
+                        <LockIcon className="h-4 w-4" />
+                        Private
+                      </Label>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <RadioGroupItem value="public" id="public" />
+                      <Label
+                        htmlFor="public"
+                        className="flex items-center gap-1 cursor-pointer"
+                      >
+                        <EyeIcon className="h-4 w-4" />
+                        Public
+                      </Label>
+                    </div>
+                  </RadioGroup>
+                  <p className="text-sm text-muted-foreground">
+                    {field.value === "private"
+                      ? "Only you can view this snippet"
+                      : "Anyone with the link can view this snippet"}
+                  </p>
+                </div>
               </FormControl>
               <FormMessage />
             </FormItem>

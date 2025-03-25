@@ -12,6 +12,8 @@ import {
   ClipboardCopyIcon,
   CodeIcon,
   EyeIcon,
+  EyeOffIcon,
+  LockIcon,
   MoreHorizontalIcon,
   PencilIcon,
   ShareIcon,
@@ -65,23 +67,23 @@ export default async function SnippetDetailPage({
             <span>•</span>
             <span>Created {formatTime(snippet.createdAt)}</span>
             <span>•</span>
-            {/* <div className="flex items-center">
+            <div className="flex items-center">
               {snippet.visibility === "public" ? (
-                <div className="flex items-center">
+                <div className="text-green-600 flex items-center">
                   <EyeIcon className="mr-1 h-4 w-4" />
                   <span>Public</span>
                 </div>
               ) : (
                 <div className="flex items-center">
-                  <EyeIcon className="mr-1 h-4 w-4" />
+                  <LockIcon className="mr-1 h-4 w-4" />
                   <span>Private</span>
                 </div>
               )}
-            </div> */}
+            </div>
           </div>
         </div>
         <div className="flex items-center gap-2">
-          <Button
+          {/* <Button
             variant="outline"
             size="sm"
             // onClick={copyToClipboard}
@@ -93,7 +95,7 @@ export default async function SnippetDetailPage({
           <Button variant="outline" size="sm" className="gap-1">
             <ShareIcon className="h-4 w-4" />
             Share
-          </Button>
+          </Button> */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" size="icon" className="h-8 w-8">

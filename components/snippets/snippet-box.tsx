@@ -9,7 +9,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { MoreHorizontalIcon } from "lucide-react";
+import { EyeIcon, LockIcon, MoreHorizontalIcon } from "lucide-react";
 import { formatTime } from "@/lib/format-time";
 import DeleteSnippetComponent from "./delete-snippet";
 import EditSnippetButton from "./edit-snippet-button";
@@ -31,8 +31,8 @@ const SnippetBox = ({ snippet }: snippetBoxProps) => {
           </Link>
         </div>
         <div className="flex items-center gap-2">
-          {/* {snippet.visibility === "public" ? (
-            <div className="flex items-center text-sm text-muted-foreground">
+          {snippet.visibility === "public" ? (
+            <div className="flex text-green-600 items-center text-sm text-muted-foreground">
               <EyeIcon className="mr-1 h-4 w-4" />
               <span>Public</span>
             </div>
@@ -41,7 +41,7 @@ const SnippetBox = ({ snippet }: snippetBoxProps) => {
               <LockIcon className="mr-1 h-4 w-4" />
               <span>Private</span>
             </div>
-          )} */}
+          )}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" size="icon" className="h-8 w-8">

@@ -20,7 +20,7 @@ export default async function DashboardPage() {
 
   // const [searchQuery, setSearchQuery] = useState("");
 
-  // const filteredSnippets = mySnippets.filter(
+  // const filteredSnippets = snippets.filter(
   //   (snippet) =>
   //     snippet.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
   //     snippet.description.toLowerCase().includes(searchQuery.toLowerCase())
@@ -73,62 +73,12 @@ export default async function DashboardPage() {
             </div>
           )}
         </TabsContent>
-        {/* <TabsContent value="public">
+        <TabsContent value="public">
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {snippets
               .filter((snippet) => snippet.visibility === "public")
               .map((snippet) => (
-                <div
-                  key={snippet.id}
-                  className="group relative overflow-hidden rounded-lg border bg-background p-4 transition-all hover:shadow-md"
-                >
-                  <div className="flex items-center justify-between mb-2">
-                    <div className="font-medium">{snippet.title}</div>
-                    <div className="flex items-center gap-2">
-                      <div className="flex items-center text-sm text-muted-foreground">
-                        <EyeIcon className="mr-1 h-4 w-4" />
-                        <span>Public</span>
-                      </div>
-                      <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                          <Button
-                            variant="ghost"
-                            size="icon"
-                            className="h-8 w-8"
-                          >
-                            <MoreHorizontalIcon className="h-4 w-4" />
-                            <span className="sr-only">More</span>
-                          </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end">
-                          <DropdownMenuItem>Edit</DropdownMenuItem>
-                          <DropdownMenuItem>Duplicate</DropdownMenuItem>
-                          <DropdownMenuItem className="text-destructive">
-                            Delete
-                          </DropdownMenuItem>
-                        </DropdownMenuContent>
-                      </DropdownMenu>
-                    </div>
-                  </div>
-                  <div className="rounded bg-muted p-3 font-mono text-sm mb-3 max-h-[150px] overflow-hidden">
-                    <pre>
-                      <code>{snippet.code}</code>
-                    </pre>
-                  </div>
-                  <p className="text-sm text-muted-foreground line-clamp-2">
-                    {snippet.description}
-                  </p>
-                  <div className="mt-2 flex items-center justify-between text-xs text-muted-foreground">
-                    <span>{snippet.language}</span>
-                    <span>Created {snippet.createdAt}</span>
-                  </div>
-                  <Link
-                    href={`/dashboard/snippets/${snippet.id}`}
-                    className="absolute inset-0"
-                  >
-                    <span className="sr-only">View snippet</span>
-                  </Link>
-                </div>
+                <SnippetBox key={snippet.id} snippet={snippet} />
               ))}
           </div>
         </TabsContent>
@@ -137,60 +87,10 @@ export default async function DashboardPage() {
             {snippets
               .filter((snippet) => snippet.visibility === "private")
               .map((snippet) => (
-                <div
-                  key={snippet.id}
-                  className="group relative overflow-hidden rounded-lg border bg-background p-4 transition-all hover:shadow-md"
-                >
-                  <div className="flex items-center justify-between mb-2">
-                    <div className="font-medium">{snippet.title}</div>
-                    <div className="flex items-center gap-2">
-                      <div className="flex items-center text-sm text-muted-foreground">
-                        <LockIcon className="mr-1 h-4 w-4" />
-                        <span>Private</span>
-                      </div>
-                      <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                          <Button
-                            variant="ghost"
-                            size="icon"
-                            className="h-8 w-8"
-                          >
-                            <MoreHorizontalIcon className="h-4 w-4" />
-                            <span className="sr-only">More</span>
-                          </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end">
-                          <DropdownMenuItem>Edit</DropdownMenuItem>
-                          <DropdownMenuItem>Duplicate</DropdownMenuItem>
-                          <DropdownMenuItem className="text-destructive">
-                            Delete
-                          </DropdownMenuItem>
-                        </DropdownMenuContent>
-                      </DropdownMenu>
-                    </div>
-                  </div>
-                  <div className="rounded bg-muted p-3 font-mono text-sm mb-3 max-h-[150px] overflow-hidden">
-                    <pre>
-                      <code>{snippet.code}</code>
-                    </pre>
-                  </div>
-                  <p className="text-sm text-muted-foreground line-clamp-2">
-                    {snippet.description}
-                  </p>
-                  <div className="mt-2 flex items-center justify-between text-xs text-muted-foreground">
-                    <span>{snippet.language}</span>
-                    <span>Created {snippet.createdAt}</span>
-                  </div>
-                  <Link
-                    href={`/dashboard/snippets/${snippet.id}`}
-                    className="absolute inset-0"
-                  >
-                    <span className="sr-only">View snippet</span>
-                  </Link>
-                </div>
+                <SnippetBox key={snippet.id} snippet={snippet} />
               ))}
           </div>
-        </TabsContent> */}
+        </TabsContent>
       </Tabs>
     </div>
   );

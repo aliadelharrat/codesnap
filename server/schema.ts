@@ -4,8 +4,12 @@ import {
   timestamp,
   primaryKey,
   integer,
+  boolean,
+  pgEnum,
 } from "drizzle-orm/pg-core";
 import type { AdapterAccount } from "next-auth/adapters";
+
+export const visibilityEnum = pgEnum("visibility", ["private", "public"]);
 
 export const snippetsTable = pgTable("snippets", {
   id: text("id")
@@ -14,6 +18,7 @@ export const snippetsTable = pgTable("snippets", {
   title: text("title").notNull(),
   code: text("code").notNull(),
   description: text("description").notNull(),
+  visibility: visibilityEnum().notNull().default("private"),
   createdAt: timestamp("created_at").defaultNow(),
   userId: text("userId")
     .notNull()

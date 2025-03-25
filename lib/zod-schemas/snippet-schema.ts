@@ -26,4 +26,5 @@ export const snippetSchema = z.object({
     .max(1000, {
       message: "Description must be at most 1000 characters long",
     }),
+  visibility: z.enum(["public", "private"]),
 });
