@@ -28,6 +28,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import ViewCode from "./view-code";
 
 const codeFont = Fira_Code({
   weight: ["400"],
@@ -110,9 +111,7 @@ const SnippetBox = ({ snippet, language }: snippetBoxProps) => {
           codeFont.className
         )}
       >
-        <SyntaxHighlighter language={language?.name} style={theme}>
-          {snippet.code}
-        </SyntaxHighlighter>
+        <ViewCode code={snippet?.code} name={language?.name} />
       </div>
       <p className="text-sm text-muted-foreground line-clamp-2">
         {snippet.description}

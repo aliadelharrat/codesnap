@@ -22,10 +22,8 @@ import EditSnippetButton from "@/components/snippets/edit-snippet-button";
 import { auth } from "@/server/auth";
 import CopySnippet from "@/components/snippets/copy-snippet";
 import ShareSnippet from "@/components/snippets/share-snippet";
-import SyntaxHighlighter from "react-syntax-highlighter";
-import { gruvboxDark as theme } from "react-syntax-highlighter/dist/esm/styles/hljs";
-import { Fira_Code } from "next/font/google";
 import { cn } from "@/lib/utils";
+
 import { Metadata } from "next";
 import {
   Dialog,
@@ -36,15 +34,16 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-
-export const metadata: Metadata = {
-  title: "View snippet",
-};
-
+import ViewCode from "@/components/snippets/view-code";
+import { Fira_Code } from "next/font/google";
 const codeFont = Fira_Code({
   weight: ["400"],
   subsets: ["latin"],
 });
+
+export const metadata: Metadata = {
+  title: "View snippet",
+};
 
 export default async function SnippetDetailPage({
   params,
@@ -145,9 +144,7 @@ export default async function SnippetDetailPage({
 
       <Card className="mb-6 overflow-hidden">
         <div className={cn("text-sm overflow-x-auto", codeFont.className)}>
-          <SyntaxHighlighter language={language?.name} style={theme}>
-            {snippet.code}
-          </SyntaxHighlighter>
+          <ViewCode name={language?.name!} code={snippet?.code} />
         </div>
       </Card>
 
