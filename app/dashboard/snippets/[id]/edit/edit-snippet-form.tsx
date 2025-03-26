@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -20,19 +21,44 @@ import { Textarea } from "@/components/ui/textarea";
 import Link from "next/link";
 import toast from "react-hot-toast";
 import { redirect } from "next/navigation";
-import { EyeIcon, Loader2, LockIcon } from "lucide-react";
+import {
+  Check,
+  ChevronsUpDown,
+  EyeIcon,
+  Loader2,
+  LockIcon,
+} from "lucide-react";
 import { InferSelectModel } from "drizzle-orm";
-import { snippetsTable } from "@/server/schema";
+import { languagesTable, snippetsTable } from "@/server/schema";
 import { updateSnippet } from "@/server/actions/update-snippet";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from "@/components/ui/command";
+import { cn } from "@/lib/utils";
+import { useState } from "react";
 
 type EditSnippetFormProps = {
   snippet: InferSelectModel<typeof snippetsTable>;
+  languages: InferSelectModel<typeof languagesTable>[];
 };
 
-const EditSnippetForm = ({ snippet }: EditSnippetFormProps) => {
-  const { id, title, code, description, visibility } = snippet;
+const EditSnippetForm = ({ snippet, languages }: EditSnippetFormProps) => {
+  const { id, title, code, description, visibility, languageId } = snippet;
+
+  const [open, setOpen] = useState(false);
+
   // 1. Define your form.
   const form = useForm<z.infer<typeof snippetSchema>>({
     resolver: zodResolver(snippetSchema),
@@ -41,6 +67,7 @@ const EditSnippetForm = ({ snippet }: EditSnippetFormProps) => {
       code,
       description,
       visibility,
+      languageId,
     },
   });
 
@@ -113,6 +140,71 @@ const EditSnippetForm = ({ snippet }: EditSnippetFormProps) => {
                   {...field}
                 />
               </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="languageId"
+          render={({ field }) => (
+            <FormItem className="flex flex-col">
+              <FormLabel>Language</FormLabel>
+              <Popover open={open}>
+                <PopoverTrigger asChild onClick={() => setOpen(true)}>
+                  <FormControl>
+                    <Button
+                      variant="outline"
+                      role="combobox"
+                      className={cn(
+                        "w-[200px] justify-between",
+                        !field.value && "text-muted-foreground"
+                      )}
+                    >
+                      {field.value
+                        ? languages.find(
+                            (language) => language.id === field.value
+                          )?.name
+                        : "Select language"}
+                      <ChevronsUpDown className="opacity-50" />
+                    </Button>
+                  </FormControl>
+                </PopoverTrigger>
+                <PopoverContent className="w-[200px] p-0">
+                  <Command>
+                    <CommandInput
+                      placeholder="Search framework..."
+                      className="h-9"
+                    />
+                    <CommandList>
+                      <CommandEmpty>No framework found.</CommandEmpty>
+                      <CommandGroup>
+                        {languages.map((language) => (
+                          <CommandItem
+                            value={language.name}
+                            key={language.id}
+                            onSelect={() => {
+                              form.setValue("languageId", language.id);
+                              setOpen(false);
+                            }}
+                          >
+                            {language.name}
+                            <Check
+                              className={cn(
+                                "ml-auto",
+                                language.id === field.value
+                                  ? "opacity-100"
+                                  : "opacity-0"
+                              )}
+                            />
+                          </CommandItem>
+                        ))}
+                      </CommandGroup>
+                    </CommandList>
+                  </Command>
+                </PopoverContent>
+              </Popover>
               <FormMessage />
             </FormItem>
           )}

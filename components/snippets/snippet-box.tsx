@@ -1,4 +1,4 @@
-import { snippetsTable } from "@/server/schema";
+import { languagesTable, snippetsTable } from "@/server/schema";
 import { InferSelectModel } from "drizzle-orm";
 
 import Link from "next/link";
@@ -6,7 +6,6 @@ import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { EyeIcon, LockIcon, MoreHorizontalIcon } from "lucide-react";
@@ -14,25 +13,36 @@ import { formatTime } from "@/lib/format-time";
 import DeleteSnippetComponent from "./delete-snippet";
 import EditSnippetButton from "./edit-snippet-button";
 
+import SyntaxHighlighter from "react-syntax-highlighter";
+import { atomOneDark as theme } from "react-syntax-highlighter/dist/esm/styles/hljs";
+import { Fira_Code } from "next/font/google";
+import { cn } from "@/lib/utils";
+
+const codeFont = Fira_Code({
+  weight: ["400"],
+  subsets: ["latin"],
+});
+
 type snippetBoxProps = {
   snippet: InferSelectModel<typeof snippetsTable>;
+  language: InferSelectModel<typeof languagesTable>;
 };
 
-const SnippetBox = ({ snippet }: snippetBoxProps) => {
+const SnippetBox = ({ snippet, language }: snippetBoxProps) => {
   return (
     <div
       key={snippet.id}
       className="group relative overflow-hidden rounded-lg border bg-background p-4 transition-all hover:shadow-md"
     >
       <div className="flex items-center justify-between mb-2">
-        <div className="font-medium">
+        <div className="font-medium line-clamp-2">
           <Link href={`/dashboard/snippets/${snippet.id}`}>
             {snippet.title}
           </Link>
         </div>
         <div className="flex items-center gap-2">
           {snippet.visibility === "public" ? (
-            <div className="flex !text-green-600 items-center text-sm text-muted-foreground">
+            <div className="flex !text-emerald-700 items-center text-sm text-muted-foreground">
               <EyeIcon className="mr-1 h-4 w-4" />
               <span>Public</span>
             </div>
@@ -43,7 +53,7 @@ const SnippetBox = ({ snippet }: snippetBoxProps) => {
             </div>
           )}
           <DropdownMenu>
-            <DropdownMenuTrigger asChild>
+            <DropdownMenuTrigger asChild className="z-50">
               <Button variant="ghost" size="icon" className="h-8 w-8">
                 <MoreHorizontalIcon className="h-4 w-4" />
                 <span className="sr-only">More</span>
@@ -57,27 +67,24 @@ const SnippetBox = ({ snippet }: snippetBoxProps) => {
           </DropdownMenu>
         </div>
       </div>
-      <div className="rounded bg-muted p-3 font-mono text-sm mb-3 max-h-[150px] overflow-hidden">
-        <pre>
-          <code>{snippet.code}</code>
-        </pre>
+      <div className="rounded bg-muted font-mono text-sm mb-3 max-h-[150px] overflow-hidden">
+        <SyntaxHighlighter language={language?.name} style={theme}>
+          {snippet.code}
+        </SyntaxHighlighter>
       </div>
-      <p className="text-sm text-muted-foreground line-clamp-2">
+      <p className="line-clamp-2 text-sm text-muted-foreground line-clamp-2">
         {snippet.description}
       </p>
       <div className="mt-2 flex items-center justify-between text-xs text-muted-foreground">
-        <span>
-          {/* {snippet.language} */}
-          Language
-        </span>
+        <span className="capitalize font-bold">{language.name}</span>
         <span>Created {formatTime(snippet.createdAt)}</span>
       </div>
-      {/* <Link
+      <Link
         href={`/dashboard/snippets/${snippet.id}`}
-        className="absolute inset-0"
+        className="absolute inset-0 z-40"
       >
         <span className="sr-only">View snippet</span>
-      </Link> */}
+      </Link>
     </div>
   );
 };

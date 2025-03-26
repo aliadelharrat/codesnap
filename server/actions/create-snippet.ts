@@ -9,7 +9,9 @@ import { revalidatePath } from "next/cache";
 export const createSnippet = actionClient
   .schema(snippetSchema)
   .action(
-    async ({ parsedInput: { id, title, code, description, visibility } }) => {
+    async ({
+      parsedInput: { id, title, code, description, visibility, languageId },
+    }) => {
       try {
         if (!id) {
           return { failure: "Missing ID, Please login again!" };
@@ -20,6 +22,7 @@ export const createSnippet = actionClient
           code,
           description,
           visibility,
+          languageId,
         });
         revalidatePath("/dashboard");
         return { success: "Snippet saved successfully." };

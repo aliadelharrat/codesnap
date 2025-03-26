@@ -11,20 +11,6 @@ import type { AdapterAccount } from "next-auth/adapters";
 
 export const visibilityEnum = pgEnum("visibility", ["private", "public"]);
 
-export const snippetsTable = pgTable("snippets", {
-  id: text("id")
-    .primaryKey()
-    .$defaultFn(() => crypto.randomUUID()),
-  title: text("title").notNull(),
-  code: text("code").notNull(),
-  description: text("description").notNull(),
-  visibility: visibilityEnum().notNull().default("private"),
-  createdAt: timestamp("created_at").defaultNow(),
-  userId: text("userId")
-    .notNull()
-    .references(() => users.id, { onDelete: "cascade" }),
-});
-
 export const users = pgTable("user", {
   id: text("id")
     .primaryKey()
@@ -60,3 +46,28 @@ export const accounts = pgTable(
     },
   ]
 );
+
+export const snippetsTable = pgTable("snippets", {
+  id: text("id")
+    .primaryKey()
+    .$defaultFn(() => crypto.randomUUID()),
+  title: text("title").notNull(),
+  code: text("code").notNull(),
+  description: text("description").notNull(),
+  visibility: visibilityEnum().notNull().default("private"),
+  createdAt: timestamp("created_at").defaultNow(),
+  userId: text("userId")
+    .notNull()
+    .references(() => users.id, { onDelete: "cascade" }),
+  languageId: text("languageId")
+    .notNull()
+    .references(() => languagesTable.id, { onDelete: "cascade" }),
+});
+
+export const languagesTable = pgTable("languages", {
+  id: text("id")
+    .primaryKey()
+    .$default(() => crypto.randomUUID()),
+  name: text("name").notNull(),
+  createdAt: timestamp("created_at").defaultNow(),
+});

@@ -6,12 +6,19 @@ import { db } from "@/server";
 import { snippetsTable } from "../schema";
 import { eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
+import { getLanguageById } from "./languages/get-language-by-id";
+import { notFound } from "next/navigation";
 
 export const updateSnippet = actionClient
   .schema(snippetSchema)
   .action(
-    async ({ parsedInput: { id, title, code, description, visibility } }) => {
+    async ({
+      parsedInput: { id, title, code, description, visibility, languageId },
+    }) => {
       try {
+        // Make sure the language ID does exist
+        const language = await getLanguageById(languageId);
+
         await db
           .update(snippetsTable)
           .set({
@@ -19,6 +26,7 @@ export const updateSnippet = actionClient
             code,
             description,
             visibility,
+            languageId,
           })
           .where(eq(snippetsTable.id, id!));
         revalidatePath("/dashboard", "layout");

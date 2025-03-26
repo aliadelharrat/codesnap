@@ -1,17 +1,26 @@
-// import { useState } from "react";
 import Link from "next/link";
 
 import { ArrowLeft } from "lucide-react";
 import SnippetForm from "./snippet-form";
 import { auth } from "@/server/auth";
-import { redirect } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
+import { getLanguages } from "@/server/actions/languages/get-languages";
 
 export default async function NewSnippetPage() {
-  // const [visibility, setVisibility] = useState("private");
   const session = await auth();
 
   if (!session?.user?.id) {
     return redirect("/auth");
+  }
+
+  const languages = await getLanguages();
+
+  if (languages.length === 0) {
+    return (
+      <p className="py-5">
+        Languages not found, Make sure they exist in the db.
+      </p>
+    );
   }
 
   return (
@@ -31,7 +40,7 @@ export default async function NewSnippetPage() {
           <h1 className="mb-6 text-2xl font-bold">Create New Snippet</h1>
 
           <div className="space-y-6">
-            <SnippetForm id={session?.user.id} />
+            <SnippetForm id={session?.user.id} languages={languages} />
             {/* <div className="space-y-2">
               <Label htmlFor="title">Title</Label>
               <Input id="title" placeholder="Enter a descriptive title" />

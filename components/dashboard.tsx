@@ -8,19 +8,22 @@ import { CodeIcon, PlusIcon, SearchIcon } from "lucide-react";
 import SnippetBox from "@/components/snippets/snippet-box";
 import { useState } from "react";
 import { InferSelectModel } from "drizzle-orm";
-import { snippetsTable } from "@/server/schema";
+import { languagesTable, snippetsTable } from "@/server/schema";
 
 type DashboardComponentProps = {
-  snippets: InferSelectModel<typeof snippetsTable>[];
+  snippets: {
+    snippet: InferSelectModel<typeof snippetsTable>;
+    language: InferSelectModel<typeof languagesTable> | null;
+  }[];
 };
 
 const DashboardComponent = ({ snippets }: DashboardComponentProps) => {
   const [searchQuery, setSearchQuery] = useState("");
 
   const filteredSnippets = snippets.filter(
-    (snippet) =>
-      snippet.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      snippet.description.toLowerCase().includes(searchQuery.toLowerCase())
+    (item) =>
+      item.snippet.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      item.snippet.description.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   return (
@@ -64,8 +67,12 @@ const DashboardComponent = ({ snippets }: DashboardComponentProps) => {
             </div>
           ) : (
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              {filteredSnippets.map((snippet) => (
-                <SnippetBox key={snippet.id} snippet={snippet} />
+              {filteredSnippets.map((item) => (
+                <SnippetBox
+                  key={item.snippet.id}
+                  snippet={item.snippet}
+                  language={item.language!}
+                />
               ))}
             </div>
           )}
@@ -73,18 +80,26 @@ const DashboardComponent = ({ snippets }: DashboardComponentProps) => {
         <TabsContent value="public">
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {filteredSnippets
-              .filter((snippet) => snippet.visibility === "public")
-              .map((snippet) => (
-                <SnippetBox key={snippet.id} snippet={snippet} />
+              .filter((item) => item.snippet.visibility === "public")
+              .map((item) => (
+                <SnippetBox
+                  key={item.snippet.id}
+                  snippet={item.snippet}
+                  language={item.language!}
+                />
               ))}
           </div>
         </TabsContent>
         <TabsContent value="private">
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {filteredSnippets
-              .filter((snippet) => snippet.visibility === "private")
-              .map((snippet) => (
-                <SnippetBox key={snippet.id} snippet={snippet} />
+              .filter((item) => item.snippet.visibility === "private")
+              .map((item) => (
+                <SnippetBox
+                  key={item.snippet.id}
+                  snippet={item.snippet}
+                  language={item.language!}
+                />
               ))}
           </div>
         </TabsContent>

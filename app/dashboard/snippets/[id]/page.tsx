@@ -4,30 +4,26 @@ import { Card } from "@/components/ui/card";
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import {
-  ArrowLeft,
-  ClipboardCopyIcon,
-  CodeIcon,
-  EyeIcon,
-  EyeOffIcon,
-  LockIcon,
-  MoreHorizontalIcon,
-  PencilIcon,
-  ShareIcon,
-  TrashIcon,
-} from "lucide-react";
+import { ArrowLeft, EyeIcon, LockIcon, MoreHorizontalIcon } from "lucide-react";
 import { getSnippet } from "@/server/actions/get-snippet";
-import { notFound, redirect } from "next/navigation";
+import { redirect } from "next/navigation";
 import { formatTime } from "@/lib/format-time";
-import { deleteSnippet } from "@/server/actions/delete-snippet";
 import DeleteSnippetComponent from "@/components/snippets/delete-snippet";
 import EditSnippetButton from "@/components/snippets/edit-snippet-button";
 import { auth } from "@/server/auth";
 import CopySnippet from "@/components/snippets/copy-snippet";
 import ShareSnippet from "@/components/snippets/share-snippet";
+import SyntaxHighlighter from "react-syntax-highlighter";
+import { atomOneDark as theme } from "react-syntax-highlighter/dist/esm/styles/hljs";
+import { Fira_Code } from "next/font/google";
+import { cn } from "@/lib/utils";
+
+const codeFont = Fira_Code({
+  weight: ["400"],
+  subsets: ["latin"],
+});
 
 export default async function SnippetDetailPage({
   params,
@@ -37,7 +33,9 @@ export default async function SnippetDetailPage({
   const id = (await params).id;
   const user = (await auth())?.user;
 
-  const snippet = await getSnippet(id);
+  const snippetObj = await getSnippet(id);
+
+  const { snippet, language } = snippetObj;
 
   // check if the user own the snippet
   if (user?.id !== snippet.userId) {
@@ -58,15 +56,15 @@ export default async function SnippetDetailPage({
 
       <div className="mb-6 flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold">{snippet.title}</h1>
+          <h1 className="text-2xl font-bold pr-5">{snippet.title}</h1>
           <div className="mt-1 flex items-center gap-3 text-sm text-muted-foreground">
-            <span>{"Langauge"}</span>
+            <span className="capitalize">{language?.name}</span>
             <span>•</span>
             <span>Created {formatTime(snippet.createdAt)}</span>
             <span>•</span>
             <div className="flex items-center">
               {snippet.visibility === "public" ? (
-                <div className="text-green-600 flex items-center">
+                <div className="text-emerald-700 flex items-center">
                   <EyeIcon className="mr-1 h-4 w-4" />
                   <span>Public</span>
                 </div>
@@ -98,10 +96,10 @@ export default async function SnippetDetailPage({
       </div>
 
       <Card className="mb-6 overflow-hidden">
-        <div className="bg-muted p-4 font-mono text-sm overflow-x-auto">
-          <pre>
-            <code>{snippet.code}</code>
-          </pre>
+        <div className={cn("text-sm overflow-x-auto", codeFont.className)}>
+          <SyntaxHighlighter language={language?.name} style={theme}>
+            {snippet.code}
+          </SyntaxHighlighter>
         </div>
       </Card>
 

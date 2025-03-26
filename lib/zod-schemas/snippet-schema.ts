@@ -7,7 +7,7 @@ export const snippetSchema = z.object({
     .min(2, {
       message: "Title must be at least 2 characters long",
     })
-    .max(50, {
+    .max(100, {
       message: "Title must be at most 50 characters long",
     }),
   code: z
@@ -27,4 +27,7 @@ export const snippetSchema = z.object({
       message: "Description must be at most 1000 characters long",
     }),
   visibility: z.enum(["public", "private"]),
+  languageId: z.string().min(1, {
+    message: "Language is required",
+  }),
 });

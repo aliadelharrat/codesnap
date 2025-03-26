@@ -4,6 +4,7 @@ import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { auth } from "@/server/auth";
+import { getLanguages } from "@/server/actions/languages/get-languages";
 
 type EditSnippetPageProps = {
   params: { id: string };
@@ -12,13 +13,24 @@ type EditSnippetPageProps = {
 const EditSnippetPage = async ({ params }: EditSnippetPageProps) => {
   const id = (await params).id;
   const user = (await auth())?.user;
-  const snippet = await getSnippet(id);
+  const res = await getSnippet(id);
+  const { snippet, language } = res;
 
   if (!snippet) return notFound();
 
   // Check if snippet belongs to current user
   if (snippet.userId !== user?.id) {
     return redirect("/dashboard");
+  }
+
+  const languages = await getLanguages();
+
+  if (languages.length === 0) {
+    return (
+      <p className="py-5">
+        Languages not found, Make sure they exist in the db.
+      </p>
+    );
   }
 
   return (
@@ -40,7 +52,7 @@ const EditSnippetPage = async ({ params }: EditSnippetPageProps) => {
           </h1>
 
           <div className="space-y-6">
-            <EditSnippetForm snippet={snippet} />
+            <EditSnippetForm snippet={snippet} languages={languages} />
           </div>
         </div>
       </div>

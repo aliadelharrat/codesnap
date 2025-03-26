@@ -3,9 +3,15 @@ import { Button } from "@/components/ui/button";
 import { CodeIcon, EyeIcon } from "lucide-react";
 import { getSnippets } from "@/server/actions/get-snippets";
 import { auth } from "@/server/auth";
+import { db } from "@/server";
 
 export default async function HomePage() {
   const user = (await auth())?.user;
+
+  const languages = await db.query.languagesTable.findMany();
+
+  return <pre className="text-xs">{JSON.stringify(languages, null, 2)}</pre>;
+
   return (
     <>
       <section className="py-12 md:py-16 lg:py-20">

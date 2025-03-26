@@ -1,0 +1,2 @@
+ALTER TABLE "snippets" ADD COLUMN "languageId" text NOT NULL;--> statement-breakpoint
+ALTER TABLE "snippets" ADD CONSTRAINT "snippets_languageId_languages_id_fk" FOREIGN KEY ("languageId") REFERENCES "public"."languages"("id") ON DELETE cascade ON UPDATE no action;
