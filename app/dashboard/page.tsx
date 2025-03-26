@@ -14,6 +14,5 @@ export default async function DashboardPage() {
   if (!user?.id) return redirect("/auth");
 
   const snippets = await getSnippetsByUserId(user?.id);
-
   return <DashboardComponent snippets={snippets} />;
 }

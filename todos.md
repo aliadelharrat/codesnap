@@ -15,7 +15,7 @@
 - Add share link modal ✅
 - show shareable code snippets (without authentication) ✅
 - Add dark mode ✅
-- Add responsivity to mobile & desktop devices
+- Add responsivity to mobile & desktop devices ✅
 - Created a seed file to populate the most commonly used languages
 - Understand where website takes time to load and cache whatever you can cach
 - Released version 1.0
