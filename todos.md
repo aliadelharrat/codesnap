@@ -13,9 +13,9 @@
 - Add popup to inform visitor "explore snippets" is comming soon ✅
 - Add confirmation modal for delete snippet button ✅
 - Add share link modal ✅
+- show shareable code snippets (without authentication) ✅
+- Add dark mode ✅
 - Add responsivity to mobile & desktop devices
 - Created a seed file to populate the most commonly used languages
-- show shareable code snippets (without authentication)
 - Understand where website takes time to load and cache whatever you can cach
-- Add dark mode, swith code theme accordinaly
 - Released version 1.0

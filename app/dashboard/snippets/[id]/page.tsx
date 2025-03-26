@@ -85,7 +85,7 @@ export default async function SnippetDetailPage({
             <span>•</span>
             <div className="flex items-center">
               {snippet.visibility === "public" ? (
-                <div className="text-emerald-700 flex items-center">
+                <div className="text-emerald-700 dark:text-emerald-500 flex items-center">
                   <EyeIcon className="mr-1 h-4 w-4" />
                   <span>Public</span>
                 </div>

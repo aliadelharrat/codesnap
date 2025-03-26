@@ -53,7 +53,7 @@ const SnippetBox = ({ snippet, language }: snippetBoxProps) => {
         </div>
         <div className="flex items-center gap-2">
           {snippet.visibility === "public" ? (
-            <div className="flex !text-emerald-700 items-center text-sm text-muted-foreground">
+            <div className="flex !text-emerald-700 dark:!text-emerald-500 items-center text-sm text-muted-foreground">
               <EyeIcon className="mr-1 h-4 w-4" />
               <span>Public</span>
             </div>
