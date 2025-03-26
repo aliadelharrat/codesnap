@@ -21,6 +21,7 @@ const codeFont = Fira_Code({
 
 import { getSnippet } from "@/server/actions/get-snippet";
 import { notFound } from "next/navigation";
+import ViewCode from "@/components/snippets/view-code";
 
 type ShowSnippetProps = {
   params: Promise<{ id: string }>;
@@ -67,9 +68,7 @@ const ShowSnippet = async ({ params }: ShowSnippetProps) => {
 
       <Card className="mb-6 overflow-hidden">
         <div className={cn("text-sm overflow-x-auto", codeFont.className)}>
-          <SyntaxHighlighter language={language?.name} style={theme}>
-            {snippet.code}
-          </SyntaxHighlighter>
+          <ViewCode name={language?.name!} code={snippet?.code} />
         </div>
       </Card>
 
