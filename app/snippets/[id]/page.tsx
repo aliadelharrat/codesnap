@@ -14,12 +14,9 @@ import {
   MoreHorizontalIcon,
   TrashIcon,
 } from "lucide-react";
-import { getSnippet } from "@/server/actions/get-snippet";
-import { redirect } from "next/navigation";
 import { formatTime } from "@/lib/format-time";
 import DeleteSnippetComponent from "@/components/snippets/delete-snippet";
 import EditSnippetButton from "@/components/snippets/edit-snippet-button";
-import { auth } from "@/server/auth";
 import CopySnippet from "@/components/snippets/copy-snippet";
 import ShareSnippet from "@/components/snippets/share-snippet";
 import SyntaxHighlighter from "react-syntax-highlighter";
@@ -46,32 +43,32 @@ const codeFont = Fira_Code({
   subsets: ["latin"],
 });
 
-export default async function SnippetDetailPage({
-  params,
-}: {
-  params: { id: string };
-}) {
+import { getSnippet } from "@/server/actions/get-snippet";
+import { notFound } from "next/navigation";
+
+type ShowSnippetProps = {
+  params: Promise<{ id: string }>;
+};
+
+const ShowSnippet = async ({ params }: ShowSnippetProps) => {
   const id = (await params).id;
-  const user = (await auth())?.user;
+  const res = await getSnippet(id);
 
-  const snippetObj = await getSnippet(id);
-
-  const { snippet, language } = snippetObj;
-
-  // check if the user own the snippet
-  if (user?.id !== snippet.userId) {
-    return redirect("/dashboard");
+  if (res.snippet.visibility === "private") {
+    return notFound();
   }
+
+  const { snippet, language } = res;
 
   return (
     <div className="container max-w-4xl py-6 mx-auto">
       <div className="mb-6">
         <Link
-          href="/dashboard"
+          href="/explore"
           className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground"
         >
           <ArrowLeft className="h-4 w-4" />
-          Back to Dashboard
+          Back to Explore
         </Link>
       </div>
 
@@ -82,64 +79,11 @@ export default async function SnippetDetailPage({
             <span className="capitalize">{language?.name}</span>
             <span>•</span>
             <span>Created {formatTime(snippet.createdAt)}</span>
-            <span>•</span>
-            <div className="flex items-center">
-              {snippet.visibility === "public" ? (
-                <div className="text-emerald-700 flex items-center">
-                  <EyeIcon className="mr-1 h-4 w-4" />
-                  <span>Public</span>
-                </div>
-              ) : (
-                <div className="flex items-center">
-                  <LockIcon className="mr-1 h-4 w-4" />
-                  <span>Private</span>
-                </div>
-              )}
-            </div>
           </div>
         </div>
         <div className="flex items-center gap-2">
           <CopySnippet code={snippet.code} />
           <ShareSnippet id={snippet.id} visibility={snippet.visibility} />
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="icon" className="h-8 w-8">
-                <MoreHorizontalIcon className="h-4 w-4" />
-                <span className="sr-only">More</span>
-              </Button>
-            </DropdownMenuTrigger>
-
-            <Dialog>
-              <DropdownMenuContent align="end">
-                <EditSnippetButton id={snippet.id} />
-
-                <DialogTrigger asChild>
-                  <DropdownMenuItem className="gap-2 text-destructive cursor-pointer">
-                    <TrashIcon className="h-4 w-4" />
-                    Delete
-                  </DropdownMenuItem>
-                </DialogTrigger>
-              </DropdownMenuContent>
-
-              <DialogContent>
-                <DialogHeader>
-                  <DialogTitle>Are you absolutely sure?</DialogTitle>
-                  <DialogDescription>
-                    This action cannot be undone. This will permanently delete
-                    your snippet.
-                  </DialogDescription>
-
-                  <div className="flex items-center justify-end gap-5 mt-5">
-                    <DialogClose asChild>
-                      <Button variant={"outline"}>Cancel</Button>
-                    </DialogClose>
-
-                    <DeleteSnippetComponent id={snippet.id} />
-                  </div>
-                </DialogHeader>
-              </DialogContent>
-            </Dialog>
-          </DropdownMenu>
         </div>
       </div>
 
@@ -159,4 +103,6 @@ export default async function SnippetDetailPage({
       </div>
     </div>
   );
-}
+};
+
+export default ShowSnippet;

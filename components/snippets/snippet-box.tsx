@@ -88,7 +88,7 @@ const SnippetBox = ({ snippet, language }: snippetBoxProps) => {
                   <DialogTitle>Are you absolutely sure?</DialogTitle>
                   <DialogDescription>
                     This action cannot be undone. This will permanently delete
-                    your snippes.
+                    your snippet.
                   </DialogDescription>
 
                   <div className="flex items-center justify-end gap-5 mt-5">

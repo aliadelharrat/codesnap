@@ -27,7 +27,7 @@ const ShareSnippet = ({
   id: string;
   visibility: "private" | "public";
 }) => {
-  const link = `${process.env.NEXT_PUBLIC_WEBSITE_URL}/s/${id}`;
+  const link = `${process.env.NEXT_PUBLIC_WEBSITE_URL}/snippets/${id}`;
 
   const copyToClipboard = () => {
     if (visibility === "private") {
