@@ -3,6 +3,11 @@ import { Button } from "@/components/ui/button";
 import { EyeIcon } from "lucide-react";
 import { auth } from "@/server/auth";
 import { Metadata } from "next";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 
 export const metadata: Metadata = {
   title: process.env.NEXT_PUBLIC_WEBSITE_NAME,
@@ -32,11 +37,26 @@ export default async function HomePage() {
                     <Button size="lg">Get Started</Button>
                   </Link>
 
-                  <Link href="/">
-                    <Button variant="outline" size="lg">
-                      Explore Snippets
-                    </Button>
-                  </Link>
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <Link href="/">
+                        <Button variant="outline" size="lg">
+                          Explore Snippets
+                        </Button>
+                      </Link>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-80">
+                      <div className="space-y-2">
+                        <h4 className="font-medium leading-none">
+                          Feature Coming Soon
+                        </h4>
+                        <p className="text-sm text-muted-foreground">
+                          We're working on the public snippets explorer. Check
+                          back soon!
+                        </p>
+                      </div>
+                    </PopoverContent>
+                  </Popover>
                 </>
               )}
 
@@ -46,11 +66,26 @@ export default async function HomePage() {
                     <Button size="lg">Visit your dashboard</Button>
                   </Link>
 
-                  <Link href="/">
-                    <Button variant="outline" size="lg">
-                      Explore Snippets
-                    </Button>
-                  </Link>
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <Link href="/">
+                        <Button variant="outline" size="lg">
+                          Explore Snippets
+                        </Button>
+                      </Link>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-80">
+                      <div className="space-y-2">
+                        <h4 className="font-medium leading-none">
+                          Feature Coming Soon
+                        </h4>
+                        <p className="text-sm text-muted-foreground">
+                          We're working on the public snippets explorer. Check
+                          back soon!
+                        </p>
+                      </div>
+                    </PopoverContent>
+                  </Popover>
                 </>
               )}
             </div>

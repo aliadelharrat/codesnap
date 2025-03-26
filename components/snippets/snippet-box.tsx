@@ -6,9 +6,10 @@ import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
+  DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { EyeIcon, LockIcon, MoreHorizontalIcon } from "lucide-react";
+import { EyeIcon, LockIcon, MoreHorizontalIcon, TrashIcon } from "lucide-react";
 import { formatTime } from "@/lib/format-time";
 import DeleteSnippetComponent from "./delete-snippet";
 import EditSnippetButton from "./edit-snippet-button";
@@ -17,6 +18,16 @@ import SyntaxHighlighter from "react-syntax-highlighter";
 import { gruvboxDark as theme } from "react-syntax-highlighter/dist/esm/styles/hljs";
 import { Fira_Code } from "next/font/google";
 import { cn } from "@/lib/utils";
+
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 
 const codeFont = Fira_Code({
   weight: ["400"],
@@ -60,10 +71,36 @@ const SnippetBox = ({ snippet, language }: snippetBoxProps) => {
               </Button>
             </DropdownMenuTrigger>
 
-            <DropdownMenuContent align="end">
-              <EditSnippetButton id={snippet.id} />
-              <DeleteSnippetComponent id={snippet.id} />
-            </DropdownMenuContent>
+            <Dialog>
+              <DropdownMenuContent align="end">
+                <EditSnippetButton id={snippet.id} />
+
+                <DialogTrigger asChild>
+                  <DropdownMenuItem className="gap-2 text-destructive cursor-pointer">
+                    <TrashIcon className="h-4 w-4" />
+                    Delete
+                  </DropdownMenuItem>
+                </DialogTrigger>
+              </DropdownMenuContent>
+
+              <DialogContent>
+                <DialogHeader>
+                  <DialogTitle>Are you absolutely sure?</DialogTitle>
+                  <DialogDescription>
+                    This action cannot be undone. This will permanently delete
+                    your snippes.
+                  </DialogDescription>
+
+                  <div className="flex items-center justify-end gap-5 mt-5">
+                    <DialogClose asChild>
+                      <Button variant={"outline"}>Cancel</Button>
+                    </DialogClose>
+
+                    <DeleteSnippetComponent id={snippet.id} />
+                  </div>
+                </DialogHeader>
+              </DialogContent>
+            </Dialog>
           </DropdownMenu>
         </div>
       </div>

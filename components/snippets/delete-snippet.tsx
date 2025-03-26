@@ -5,6 +5,8 @@ import { DropdownMenuItem } from "../ui/dropdown-menu";
 import { deleteSnippet } from "@/server/actions/delete-snippet";
 import toast from "react-hot-toast";
 import { redirect } from "next/navigation";
+import { Button } from "../ui/button";
+import { DialogClose } from "@radix-ui/react-dialog";
 
 type deleteSnippetProps = {
   id: string;
@@ -26,10 +28,11 @@ const DeleteSnippetComponent = ({ id }: deleteSnippetProps) => {
   };
 
   return (
-    <DropdownMenuItem onClick={handleClick} className="gap-2 text-destructive cursor-pointer">
-      <TrashIcon className="h-4 w-4" />
-      Delete
-    </DropdownMenuItem>
+    <DialogClose asChild>
+      <Button onClick={handleClick} variant="destructive">
+        Confirm
+      </Button>
+    </DialogClose>
   );
 };
 
