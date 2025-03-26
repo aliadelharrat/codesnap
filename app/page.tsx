@@ -2,6 +2,11 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { EyeIcon } from "lucide-react";
 import { auth } from "@/server/auth";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: process.env.NEXT_PUBLIC_WEBSITE_NAME,
+};
 
 export default async function HomePage() {
   const user = (await auth())?.user;

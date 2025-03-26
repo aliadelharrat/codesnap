@@ -1,15 +1,21 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import Link from "next/link"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { CodeIcon, SearchIcon } from "lucide-react"
+import { useState } from "react";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { CodeIcon, SearchIcon } from "lucide-react";
 
 export default function ExplorePage() {
-  const [searchQuery, setSearchQuery] = useState("")
-  const [language, setLanguage] = useState("all")
+  const [searchQuery, setSearchQuery] = useState("");
+  const [language, setLanguage] = useState("all");
 
   // Mock data for public snippets
   const publicSnippets = [
@@ -25,7 +31,8 @@ export default function ExplorePage() {
     // This is the cleanup function
   };
 }, [dependency]);`,
-      description: "A simple example of the useEffect hook in React with cleanup function.",
+      description:
+        "A simple example of the useEffect hook in React with cleanup function.",
     },
     {
       id: 2,
@@ -36,7 +43,8 @@ export default function ExplorePage() {
       code: `# Create a list of squares
 squares = [x**2 for x in range(10)]
 print(squares)`,
-      description: "A concise way to create lists in Python using list comprehension.",
+      description:
+        "A concise way to create lists in Python using list comprehension.",
     },
     {
       id: 3,
@@ -49,7 +57,8 @@ print(squares)`,
   justify-content: space-between;
   align-items: center;
 }`,
-      description: "Basic flexbox layout with centered items and space between.",
+      description:
+        "Basic flexbox layout with centered items and space between.",
     },
     {
       id: 4,
@@ -64,7 +73,8 @@ print(squares)`,
   isActive: boolean;
   createdAt: Date;
 }`,
-      description: "TypeScript interface for a user object with type definitions.",
+      description:
+        "TypeScript interface for a user object with type definitions.",
     },
     {
       id: 5,
@@ -81,7 +91,8 @@ print(squares)`,
   
   return io.ReadAll(file)
 }`,
-      description: "Idiomatic error handling in Go with defer for resource cleanup.",
+      description:
+        "Idiomatic error handling in Go with defer for resource cleanup.",
     },
     {
       id: 6,
@@ -97,16 +108,17 @@ FROM users
 JOIN orders ON users.id = orders.user_id
 WHERE orders.amount > 100
 ORDER BY orders.order_date DESC;`,
-      description: "SQL query joining users and orders tables with filtering and sorting.",
+      description:
+        "SQL query joining users and orders tables with filtering and sorting.",
     },
-  ]
+  ];
 
   const filteredSnippets = publicSnippets.filter(
     (snippet) =>
       (language === "all" || snippet.language === language) &&
       (snippet.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        snippet.description.toLowerCase().includes(searchQuery.toLowerCase())),
-  )
+        snippet.description.toLowerCase().includes(searchQuery.toLowerCase()))
+  );
 
   return (
     <div className="flex min-h-screen flex-col">
@@ -115,7 +127,9 @@ ORDER BY orders.order_date DESC;`,
           <div className="flex items-center gap-2">
             <Link href="/" className="flex items-center gap-2">
               <CodeIcon className="h-6 w-6" />
-              <span className="text-xl font-bold">CodeSnap</span>
+              <span className="text-xl font-bold">
+                {process.env.NEXT_PUBLIC_WEBSITE_NAME}
+              </span>
             </Link>
           </div>
           <div className="flex items-center gap-4">
@@ -133,7 +147,8 @@ ORDER BY orders.order_date DESC;`,
           <div className="mb-8 text-center">
             <h1 className="text-3xl font-bold mb-2">Explore Code Snippets</h1>
             <p className="text-muted-foreground max-w-2xl mx-auto">
-              Discover and learn from public code snippets shared by the community
+              Discover and learn from public code snippets shared by the
+              community
             </p>
           </div>
 
@@ -171,7 +186,8 @@ ORDER BY orders.order_date DESC;`,
               </div>
               <h3 className="mt-4 text-lg font-semibold">No snippets found</h3>
               <p className="mb-4 mt-2 text-sm text-muted-foreground">
-                Try adjusting your search or filter to find what you're looking for
+                Try adjusting your search or filter to find what you're looking
+                for
               </p>
             </div>
           ) : (
@@ -183,19 +199,26 @@ ORDER BY orders.order_date DESC;`,
                 >
                   <div className="flex items-center justify-between mb-2">
                     <div className="font-medium">{snippet.title}</div>
-                    <div className="text-sm text-muted-foreground">{snippet.language}</div>
+                    <div className="text-sm text-muted-foreground">
+                      {snippet.language}
+                    </div>
                   </div>
                   <div className="rounded bg-muted p-3 font-mono text-sm mb-3 max-h-[150px] overflow-hidden">
                     <pre>
                       <code>{snippet.code}</code>
                     </pre>
                   </div>
-                  <p className="text-sm text-muted-foreground line-clamp-2 mb-2">{snippet.description}</p>
+                  <p className="text-sm text-muted-foreground line-clamp-2 mb-2">
+                    {snippet.description}
+                  </p>
                   <div className="mt-2 flex items-center justify-between text-xs text-muted-foreground">
                     <span>By @{snippet.author}</span>
                     <span>Created {snippet.createdAt}</span>
                   </div>
-                  <Link href={`/explore/${snippet.id}`} className="absolute inset-0">
+                  <Link
+                    href={`/explore/${snippet.id}`}
+                    className="absolute inset-0"
+                  >
                     <span className="sr-only">View snippet</span>
                   </Link>
                 </div>
@@ -206,18 +229,26 @@ ORDER BY orders.order_date DESC;`,
       </main>
       <footer className="border-t py-6 md:py-0">
         <div className="container flex flex-col items-center justify-between gap-4 md:h-16 md:flex-row">
-          <p className="text-sm text-muted-foreground">© {new Date().getFullYear()} CodeSnap. All rights reserved.</p>
+          <p className="text-sm text-muted-foreground">
+            © {new Date().getFullYear()} {process.env.NEXT_PUBLIC_WEBSITE_NAME}.
+            All rights reserved.
+          </p>
           <div className="flex items-center gap-4">
-            <Link href="/terms" className="text-sm text-muted-foreground underline-offset-4 hover:underline">
+            <Link
+              href="/terms"
+              className="text-sm text-muted-foreground underline-offset-4 hover:underline"
+            >
               Terms
             </Link>
-            <Link href="/privacy" className="text-sm text-muted-foreground underline-offset-4 hover:underline">
+            <Link
+              href="/privacy"
+              className="text-sm text-muted-foreground underline-offset-4 hover:underline"
+            >
               Privacy
             </Link>
           </div>
         </div>
       </footer>
     </div>
-  )
+  );
 }
-

@@ -11,7 +11,7 @@ interface LoadingSpinnerProps {
 export default function Loading({
   size = "md",
   showText = true,
-  text = "Loading snippet",
+  text = "Loading...",
   className,
 }: LoadingSpinnerProps) {
   const sizeClasses = {

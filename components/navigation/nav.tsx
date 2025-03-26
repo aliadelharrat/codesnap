@@ -18,7 +18,9 @@ const Nav = async () => {
       <div className="container flex h-16 items-center justify-between">
         <Link href="/" className="flex items-center gap-2">
           <CodeIcon className="h-6 w-6" />
-          <span className="text-xl font-bold">CodeSnap</span>
+          <span className="text-xl font-bold">
+            {process.env.NEXT_PUBLIC_WEBSITE_NAME}
+          </span>
         </Link>
 
         {session ? (
@@ -86,15 +88,3 @@ const Nav = async () => {
 };
 
 export default Nav;
-
-//  <header className="sticky top-0 z-10 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-//         <div className="container flex h-16 items-center justify-between">
-//           <div className="flex items-center gap-2">
-//             <Link href="/" className="flex items-center gap-2">
-//               <CodeIcon className="h-6 w-6" />
-//               <span className="text-xl font-bold">CodeSnap</span>
-//             </Link>
-//           </div>
-
-//         </div>
-//       </header>

@@ -5,7 +5,16 @@
 - Integrated a searchable select input (/dashboard/new and /[id]/editforms), with corresponding action updates ✅
 - Displayed the selected language on /dashboard and /[id] pages ✅
 - Displayed highlighted code ✅
-- Created a seed file to populate the most commonly used languages
-- show shareable code snippets (without authentication)
 - fix home ✅
+- Add custom favicon ✅
+- Add NEXT_NAME="Codesnnap" and make changes to code to use it ✅
+- Add titles to each page
+- Created a seed file to populate the most commonly used languages
+- Add popup to inform visitor "explore snippets" is comming soon
+- Add confirmation modal for delete snippet button
+- Add responsivity to mobile & desktop devices
+- show shareable code snippets (without authentication)
+- Understand where website takes time to load and cache whatever you can cach
+- Add dark mode, swith code theme accordinaly
+- add NEXT_PUBLIC_WEBSITE_NAME to .production and to vercel env vars
 - Released version 1.0

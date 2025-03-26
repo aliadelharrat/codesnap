@@ -16,9 +16,14 @@ import { auth } from "@/server/auth";
 import CopySnippet from "@/components/snippets/copy-snippet";
 import ShareSnippet from "@/components/snippets/share-snippet";
 import SyntaxHighlighter from "react-syntax-highlighter";
-import { atomOneDark as theme } from "react-syntax-highlighter/dist/esm/styles/hljs";
+import { gruvboxDark as theme } from "react-syntax-highlighter/dist/esm/styles/hljs";
 import { Fira_Code } from "next/font/google";
 import { cn } from "@/lib/utils";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "View snippet",
+};
 
 const codeFont = Fira_Code({
   weight: ["400"],

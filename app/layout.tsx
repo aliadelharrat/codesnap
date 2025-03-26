@@ -6,7 +6,10 @@ import Footer from "@/components/footer";
 import { Toaster } from "react-hot-toast";
 
 export const metadata: Metadata = {
-  title: "Codesnap",
+  title: {
+    default: process.env.NEXT_PUBLIC_WEBSITE_NAME ?? "CODESNNAP",
+    template: `%s — ${process.env.NEXT_PUBLIC_WEBSITE_NAME}`,
+  },
   description: "A place to share your code snippets with ease!",
 };
 

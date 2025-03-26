@@ -5,6 +5,11 @@ import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { auth } from "@/server/auth";
 import { getLanguages } from "@/server/actions/languages/get-languages";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Edit snippet",
+};
 
 type EditSnippetPageProps = {
   params: { id: string };

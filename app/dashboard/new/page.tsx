@@ -3,8 +3,14 @@ import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import SnippetForm from "./snippet-form";
 import { auth } from "@/server/auth";
-import { notFound, redirect } from "next/navigation";
+import { redirect } from "next/navigation";
 import { getLanguages } from "@/server/actions/languages/get-languages";
+
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "New snippet",
+};
 
 export default async function NewSnippetPage() {
   const session = await auth();

@@ -14,7 +14,7 @@ import DeleteSnippetComponent from "./delete-snippet";
 import EditSnippetButton from "./edit-snippet-button";
 
 import SyntaxHighlighter from "react-syntax-highlighter";
-import { atomOneDark as theme } from "react-syntax-highlighter/dist/esm/styles/hljs";
+import { gruvboxDark as theme } from "react-syntax-highlighter/dist/esm/styles/hljs";
 import { Fira_Code } from "next/font/google";
 import { cn } from "@/lib/utils";
 
@@ -67,12 +67,17 @@ const SnippetBox = ({ snippet, language }: snippetBoxProps) => {
           </DropdownMenu>
         </div>
       </div>
-      <div className="rounded bg-muted font-mono text-sm mb-3 max-h-[150px] overflow-hidden">
+      <div
+        className={cn(
+          "rounded bg-muted text-sm mb-3 max-h-[150px] overflow-hidden",
+          codeFont.className
+        )}
+      >
         <SyntaxHighlighter language={language?.name} style={theme}>
           {snippet.code}
         </SyntaxHighlighter>
       </div>
-      <p className="line-clamp-2 text-sm text-muted-foreground line-clamp-2">
+      <p className="text-sm text-muted-foreground line-clamp-2">
         {snippet.description}
       </p>
       <div className="mt-2 flex items-center justify-between text-xs text-muted-foreground">
