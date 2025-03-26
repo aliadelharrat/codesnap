@@ -122,26 +122,6 @@ ORDER BY orders.order_date DESC;`,
 
   return (
     <div className="flex min-h-screen flex-col">
-      <header className="sticky top-0 z-10 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="container flex h-16 items-center justify-between">
-          <div className="flex items-center gap-2">
-            <Link href="/" className="flex items-center gap-2">
-              <CodeIcon className="h-6 w-6" />
-              <span className="text-xl font-bold">
-                {process.env.NEXT_PUBLIC_WEBSITE_NAME}
-              </span>
-            </Link>
-          </div>
-          <div className="flex items-center gap-4">
-            <Link href="/login">
-              <Button variant="ghost">Login</Button>
-            </Link>
-            <Link href="/signup">
-              <Button>Sign Up</Button>
-            </Link>
-          </div>
-        </div>
-      </header>
       <main className="flex-1 py-6">
         <div className="container">
           <div className="mb-8 text-center">
@@ -216,7 +196,7 @@ ORDER BY orders.order_date DESC;`,
                     <span>Created {snippet.createdAt}</span>
                   </div>
                   <Link
-                    href={`/explore/${snippet.id}`}
+                    href={`/snippets/${snippet.id}`}
                     className="absolute inset-0"
                   >
                     <span className="sr-only">View snippet</span>

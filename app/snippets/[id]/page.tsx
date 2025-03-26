@@ -1,22 +1,7 @@
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import {
-  ArrowLeft,
-  EyeIcon,
-  LockIcon,
-  MoreHorizontalIcon,
-  TrashIcon,
-} from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import { formatTime } from "@/lib/format-time";
-import DeleteSnippetComponent from "@/components/snippets/delete-snippet";
-import EditSnippetButton from "@/components/snippets/edit-snippet-button";
 import CopySnippet from "@/components/snippets/copy-snippet";
 import ShareSnippet from "@/components/snippets/share-snippet";
 import SyntaxHighlighter from "react-syntax-highlighter";
@@ -24,15 +9,6 @@ import { gruvboxDark as theme } from "react-syntax-highlighter/dist/esm/styles/h
 import { Fira_Code } from "next/font/google";
 import { cn } from "@/lib/utils";
 import { Metadata } from "next";
-import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
 
 export const metadata: Metadata = {
   title: "View snippet",
@@ -54,11 +30,13 @@ const ShowSnippet = async ({ params }: ShowSnippetProps) => {
   const id = (await params).id;
   const res = await getSnippet(id);
 
-  if (res.snippet.visibility === "private") {
-    return notFound();
-  }
+  if (!res) return notFound();
 
   const { snippet, language } = res;
+
+  if (snippet.visibility === "private") {
+    return notFound();
+  }
 
   return (
     <div className="container max-w-4xl py-6 mx-auto">
