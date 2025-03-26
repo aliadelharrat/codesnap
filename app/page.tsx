@@ -1,16 +1,10 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { CodeIcon, EyeIcon } from "lucide-react";
-import { getSnippets } from "@/server/actions/get-snippets";
+import { EyeIcon } from "lucide-react";
 import { auth } from "@/server/auth";
-import { db } from "@/server";
 
 export default async function HomePage() {
   const user = (await auth())?.user;
-
-  const languages = await db.query.languagesTable.findMany();
-
-  return <pre className="text-xs">{JSON.stringify(languages, null, 2)}</pre>;
 
   return (
     <>
@@ -58,8 +52,8 @@ export default async function HomePage() {
           </div>
         </div>
       </section>
-      <section className="py-12 md:py-16 lg:py-20 bg-muted/50">
-        <div className="container px-4 md:px-6">
+      <section className="py-12 md:py-16 lg:py-20 bg-muted/50 relative">
+        <div className="container px-4 md:px-6 blur-[0.05rem]">
           <h2 className="mb-8 text-2xl font-bold text-center">
             Featured Snippets
           </h2>
@@ -90,6 +84,12 @@ useEffect(() => {
               </Link>
             ))}
           </div>
+        </div>
+
+        <div className="absolute inset-0 grid place-items-center z-50">
+          <p className="font-bold text-3xl tracking-tight text-red-500">
+            Coming Soon...
+          </p>
         </div>
       </section>
     </>
