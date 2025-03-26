@@ -74,14 +74,14 @@ export default async function SnippetDetailPage({
         </Link>
       </div>
 
-      <div className="mb-6 flex items-center justify-between">
+      <div className="mb-6 flex flex-col md:flex-row gap-5 items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold pr-5">{snippet.title}</h1>
-          <div className="mt-1 flex items-center gap-3 text-sm text-muted-foreground">
+          <div className="mt-5 sm:mt-1 flex flex-col sm:flex-row sm:items-center gap-3 text-sm text-muted-foreground">
             <span className="capitalize">{language?.name}</span>
-            <span>•</span>
+            <span className="hidden sm:inline">•</span>
             <span>Created {formatTime(snippet.createdAt)}</span>
-            <span>•</span>
+            <span className="hidden sm:inline">•</span>
             <div className="flex items-center">
               {snippet.visibility === "public" ? (
                 <div className="text-emerald-700 dark:text-emerald-500 flex items-center">

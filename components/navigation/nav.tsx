@@ -1,91 +1,91 @@
-import { CodeIcon, PlusIcon, UserIcon } from "lucide-react";
+import { CodeIcon, Menu, PlusIcon, UserIcon } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "../ui/dropdown-menu";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+
 import { auth, signOut } from "@/server/auth";
 import { ModeToggle } from "../mode-toggle";
+import { MobileDrawer } from "./mobile-drawer";
+import UserButton from "./user-button";
+
+const links = {
+  dashboard: (
+    <Link href="/dashboard">
+      <Button variant={"link"} size="sm" className="gap-1">
+        Dashboard
+      </Button>
+    </Link>
+  ),
+  newSnippet: (
+    <Link href="/dashboard/new">
+      <Button size="sm" className="gap-1">
+        <PlusIcon className="h-4 w-4" />
+        New Snippet
+      </Button>
+    </Link>
+  ),
+  logIn: (
+    <Link href="/auth">
+      <Button>Log in</Button>
+    </Link>
+  ),
+};
+
+const logo = (
+  <Link href="/" className="flex items-center gap-2">
+    <CodeIcon className="h-6 w-6" />
+    <span className="text-xl font-bold">
+      {process.env.NEXT_PUBLIC_WEBSITE_NAME}
+    </span>
+  </Link>
+);
 
 const Nav = async () => {
   const session = await auth();
 
+  const userButton = (
+    <UserButton
+      action={async () => {
+        "use server";
+        await signOut({
+          redirectTo: "/",
+        });
+      }}
+    />
+  );
+
   return (
     <header className="sticky top-0 z-10 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container flex h-16 items-center justify-between">
-        <Link href="/" className="flex items-center gap-2">
-          <CodeIcon className="h-6 w-6" />
-          <span className="text-xl font-bold">
-            {process.env.NEXT_PUBLIC_WEBSITE_NAME}
-          </span>
-        </Link>
+      <div className="container max-w-5xl px-5 mx-auto flex h-16 items-center justify-between">
+        {logo}
 
-        <div className="flex gap-4 items-center">
+        <div className="hidden md:flex gap-4 items-center">
           <ModeToggle />
 
-          {session ? (
+          {session && (
             <div className="flex items-center gap-4">
-              <Link href="/dashboard">
-                <Button variant={"link"} size="sm" className="gap-1">
-                  Dashboard
-                </Button>
-              </Link>
-              <Link href="/dashboard/new">
-                <Button size="sm" className="gap-1">
-                  <PlusIcon className="h-4 w-4" />
-                  New Snippet
-                </Button>
-              </Link>
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" size="icon" className="rounded-full">
-                    <Avatar>
-                      {session.user!?.image ? (
-                        <AvatarImage src={session.user?.image} />
-                      ) : (
-                        <UserIcon className="h-5 w-5" />
-                      )}
-                      <AvatarFallback>
-                        {session?.user?.name?.toUpperCase().slice(0, 2)}
-                      </AvatarFallback>
-                    </Avatar>
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end">
-                  <p className="text-sm p-2 flex items-center gap-1 bg-muted">
-                    <UserIcon className="size-4" />
-                    {session.user?.name}
-                  </p>
+              {links.dashboard}
 
-                  <form
-                    className="w-full cursor-pointer"
-                    action={async () => {
-                      "use server";
-                      await signOut({
-                        redirectTo: "/",
-                      });
-                    }}
-                  >
-                    <button className="w-full" type="submit">
-                      <DropdownMenuItem className="cursor-pointer">
-                        Logout
-                      </DropdownMenuItem>
-                    </button>
-                  </form>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </div>
-          ) : (
-            <div className="flex items-center gap-4">
-              <Link href="/auth">
-                <Button>Log in</Button>
-              </Link>
+              {links.newSnippet}
+
+              {userButton}
             </div>
           )}
+
+          {!session && (
+            <div className="flex items-center gap-4">{links.logIn}</div>
+          )}
+        </div>
+
+        <div className="block md:hidden">
+          <MobileDrawer
+            logo={logo}
+            dashboard={links.dashboard}
+            newSnippet={links.newSnippet}
+            isAuthenticated={session!?.user ? true : false}
+            logIn={links.logIn}
+          >
+            {userButton}
+          </MobileDrawer>
         </div>
       </div>
     </header>

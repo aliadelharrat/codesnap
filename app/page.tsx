@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { EyeIcon } from "lucide-react";
 import { auth } from "@/server/auth";
 import { Metadata } from "next";
@@ -8,6 +8,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { cn } from "@/lib/utils";
 
 export const metadata: Metadata = {
   title: process.env.NEXT_PUBLIC_WEBSITE_NAME,
@@ -30,70 +31,70 @@ export default async function HomePage() {
                 the world or keep them private.
               </p>
             </div>
-            <div className="space-x-4">
+            <div className="flex gap-2 flex-col md:flex-row">
               {!user && (
                 <>
-                  <Link href="/auth">
-                    <Button size="lg">Get Started</Button>
+                  <Link
+                    href="/auth"
+                    className={cn(
+                      buttonVariants({
+                        size: "lg",
+                      }),
+                      "w-full"
+                    )}
+                  >
+                    Get Started
                   </Link>
 
-                  <Popover>
-                    <PopoverTrigger asChild>
-                      <Link href="/">
-                        <Button variant="outline" size="lg">
-                          Explore Snippets
-                        </Button>
-                      </Link>
-                    </PopoverTrigger>
-                    <PopoverContent className="w-80">
-                      <div className="space-y-2">
-                        <h4 className="font-medium leading-none">
-                          Feature Coming Soon
-                        </h4>
-                        <p className="text-sm text-muted-foreground">
-                          We're working on the public snippets explorer. Check
-                          back soon!
-                        </p>
-                      </div>
-                    </PopoverContent>
-                  </Popover>
+                  <Link
+                    href="/"
+                    className={cn(
+                      buttonVariants({
+                        variant: "outline",
+                        size: "lg",
+                      }),
+                      "w-full"
+                    )}
+                  >
+                    Explore Snippets
+                  </Link>
                 </>
               )}
 
               {user && (
                 <>
-                  <Link href="/dashboard">
-                    <Button size="lg">Visit your dashboard</Button>
+                  <Link
+                    href="/dashboard"
+                    className={cn(
+                      buttonVariants({
+                        size: "lg",
+                      }),
+                      "w-full"
+                    )}
+                  >
+                    Visit your dashboard
                   </Link>
 
-                  <Popover>
-                    <PopoverTrigger asChild>
-                      <Link href="/">
-                        <Button variant="outline" size="lg">
-                          Explore Snippets
-                        </Button>
-                      </Link>
-                    </PopoverTrigger>
-                    <PopoverContent className="w-80">
-                      <div className="space-y-2">
-                        <h4 className="font-medium leading-none">
-                          Feature Coming Soon
-                        </h4>
-                        <p className="text-sm text-muted-foreground">
-                          We're working on the public snippets explorer. Check
-                          back soon!
-                        </p>
-                      </div>
-                    </PopoverContent>
-                  </Popover>
+                  <Link
+                    href="/"
+                    className={cn(
+                      buttonVariants({
+                        variant: "outline",
+                        size: "lg",
+                      }),
+                      "w-full"
+                    )}
+                  >
+                    Explore Snippets
+                  </Link>
                 </>
               )}
             </div>
           </div>
         </div>
       </section>
-      <section className="py-12 md:py-16 lg:py-20 bg-muted/50 relative">
-        <div className="container px-4 md:px-6 blur-[0.05rem]">
+      <section className="hidden py-12 md:py-16 lg:py-20 bg-muted/50">
+        <div className="container px-4 md:px-6">
           <h2 className="mb-8 text-2xl font-bold text-center">
             Featured Snippets
           </h2>
@@ -124,12 +125,6 @@ useEffect(() => {
               </Link>
             ))}
           </div>
-        </div>
-
-        <div className="absolute inset-0 grid place-items-center z-50">
-          <p className="font-bold text-3xl tracking-tight text-red-500">
-            Coming Soon...
-          </p>
         </div>
       </section>
     </>
